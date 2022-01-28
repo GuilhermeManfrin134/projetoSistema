@@ -4,6 +4,7 @@ import Routex from './Routex';
 import SignIn from '../pages/Signin';
 import SignUp from '../pages/Signup';
 import Dashboard from '../pages/Dashboard';
+import Profile from '../pages/Profile';
 
 export default function Rout(){
     return(
@@ -12,6 +13,7 @@ export default function Rout(){
             <Routex exact path="/register" component={SignUp}/>
 
             <Routex exact path="/dashboard" component={Dashboard} isPrivate/>
+            <Routex exact path="/profile" component={Profile} isPrivate/>
         </Switch>
     )
 }
