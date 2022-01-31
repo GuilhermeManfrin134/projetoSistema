@@ -6,6 +6,7 @@ import firebase from '../../services/firebaseConnection';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 
+import { toast } from 'react-toastify';
 import { FiPlusCircle } from 'react-icons/fi';
 import './new.css';
 
@@ -56,10 +57,27 @@ export default function New(){
         loadCustomers();
     }, [])
 
-    function handleRegister(e){
+    async function handleRegister(e){
         e.preventDefault();
 
-        alert("Clicou")
+        await firebase.firestore().collection('chamados')
+        .add({
+            created: new Date(),
+            cliente: customers[customerSelected].nomeFantasia,
+            clienteId: customers[customerSelected].id,
+            assunto: assunto,
+            status: status,
+            complemento: complemento,
+            userId: user.uid
+        })
+        .then(()=>{
+            toast.success('Chamado criado com sucesso!')
+            setComplemento('');
+            setCustomersSelected(0);
+        })
+        .catch((error)=>{
+            toast.error("Ocorreu um erro: ", error)
+        })
     }
 
     function handleChangeSelect(e){
@@ -68,7 +86,6 @@ export default function New(){
 
     function handleOptionChange(e){
         setStatus(e.target.value);
-        alert(e.target.value);
     }
 
     function handleChangeCustomers(e){
@@ -90,7 +107,7 @@ export default function New(){
                         {
                         loadCustomers ? 
                             (
-                                <input type='text' disabled={true} value='Carregando Clientes' /> 
+                                <input type='text' disabled={true} value='Carregando Clientes...' /> 
                             ) : (
                                 <select value={customerSelected} onChange={handleChangeCustomers}>
                                     {customers.map((item, index)=>{
