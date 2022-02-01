@@ -18,6 +18,7 @@ export default function Rout(){
             <Routex exact path="/profile" component={Profile} isPrivate/>
             <Routex exact path="/customers" component={Customers} isPrivate/>
             <Routex exact path="/new" component={New} isPrivate/>
+            <Routex exact path="/new/:id" component={New} isPrivate/>
         </Switch>
     )
 }
